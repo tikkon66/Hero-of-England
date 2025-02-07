@@ -39,7 +39,7 @@ window.addEventListener("load", () => {
     function create() {
         Player = this.physics.add.sprite(500, 350, 'MC');
         Player.body.setSize(30, 30);
-        Player.body.setOffset(35, 25);
+        // Player.body.setOffset(35, 25);
         Player.setCollideWorldBounds(true);
 
         Enemy = this.physics.add.group();
