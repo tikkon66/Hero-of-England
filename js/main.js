@@ -46,7 +46,7 @@ window.addEventListener("load", () => {
         Enemy.create(100, 100, 'MC');
         Enemy.getChildren().forEach((sprite) => {
             sprite.body.setSize(30, 30);
-            sprite.body.setOffset(35, 25);
+            // sprite.body.setOffset(35, 25);
         });
 
         // EnemyCount = Enemy.getChildren();
@@ -124,10 +124,10 @@ window.addEventListener("load", () => {
         let dashSpeed = 400;
         let dashDuration = 200;
 
-        let dashX = Player.body.velocity.x > 0 ? dashSpeed : Player.body.velocity.x < 0 ? -dashSpeed : 0;
-        let dashY = Player.body.velocity.y > 0 ? dashSpeed : Player.body.velocity.y < 0 ? -dashSpeed : 0;
+        // let dashX = Player.body.velocity.x > 0 ? dashSpeed : Player.body.velocity.x < 0 ? -dashSpeed : 0;
+        // let dashY = Player.body.velocity.y > 0 ? dashSpeed : Player.body.velocity.y < 0 ? -dashSpeed : 0;
 
-        Player.setVelocity(dashX, dashY);
+        // Player.setVelocity(dashX, dashY);
         Player.body.velocity.normalize().scale(600);
 
         scene.time.delayedCall(dashDuration, () => {
@@ -169,7 +169,7 @@ window.addEventListener("load", () => {
         Enemy.getChildren().forEach((sprite) => {
             sprite.setCollideWorldBounds(true);
             sprite.body.setSize(30, 30);
-            sprite.body.setOffset(35, 25);
+            // sprite.body.setOffset(35, 25);
         });
     }
     // CoorDebug.addEventListener("click", () => {
