@@ -33,20 +33,20 @@ window.addEventListener("load", () => {
     let score = 0;
 
     function preload() {
-        this.load.image('MC', '../assets/MC.png');
+        this.load.image('MC', '../img/MC.png');
     }
 
     function create() {
         Player = this.physics.add.sprite(500, 350, 'MC');
         Player.body.setSize(30, 30);
-        // Player.body.setOffset(35, 25);
+        Player.body.setOffset(35, 25);
         Player.setCollideWorldBounds(true);
 
         Enemy = this.physics.add.group();
         Enemy.create(100, 100, 'MC');
         Enemy.getChildren().forEach((sprite) => {
             sprite.body.setSize(30, 30);
-            // sprite.body.setOffset(35, 25);
+            sprite.body.setOffset(35, 25);
         });
 
         // EnemyCount = Enemy.getChildren();
@@ -169,7 +169,7 @@ window.addEventListener("load", () => {
         Enemy.getChildren().forEach((sprite) => {
             sprite.setCollideWorldBounds(true);
             sprite.body.setSize(30, 30);
-            // sprite.body.setOffset(35, 25);
+            sprite.body.setOffset(35, 25);
         });
     }
     // CoorDebug.addEventListener("click", () => {
