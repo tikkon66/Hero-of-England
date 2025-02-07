@@ -1,6 +1,6 @@
 window.addEventListener("load", () => {
     // const CoorDebug = document.getElementById("CoorCheck");
-    // const SpawnButton = document.getElementById("SpawnEnemy")
+    // const SpawnButton = document.getElementById("SpawnEnemy");
 
     const config = {
         type: Phaser.AUTO,
@@ -25,31 +25,31 @@ window.addEventListener("load", () => {
 
     let Player;
     let Enemy;
+
     let cursors;
     let isDashing = false;
-
     let Dash;
 
     let score = 0;
 
     function preload() {
-        this.load.image('MC', 'assets/MC.png');
+        this.load.image('MC', '../assets/MC.png');
     }
 
     function create() {
-        Player = this.physics.add.sprite(500, 300, 'MC');
+        Player = this.physics.add.sprite(500, 350, 'MC');
         Player.body.setSize(30, 30);
-        Player.body.setOffset(35, 25);
+        // Player.body.setOffset(35, 25);
         Player.setCollideWorldBounds(true);
 
         Enemy = this.physics.add.group();
         Enemy.create(100, 100, 'MC');
         Enemy.getChildren().forEach((sprite) => {
             sprite.body.setSize(30, 30);
-            sprite.body.setOffset(35, 25);
+            // sprite.body.setOffset(35, 25);
         });
 
-        EnemyCount = Enemy.getChildren();
+        // EnemyCount = Enemy.getChildren();
 
         this.physics.add.collider(Enemy, Enemy);
 
@@ -91,51 +91,6 @@ window.addEventListener("load", () => {
     }
 
     let lastFired = 0;
-    // function update(time) {
-    //     if (GameOver == true) {
-    //         this.scene.stop();
-    //     }
-    //     Player.setVelocity(0);
-
-    //     if (cursors.up.isDown && cursors.left.isDown) {
-    //         Player.setVelocityY(-106);
-    //         Player.setVelocityX(-106);
-    //     }
-    //     else if(cursors.up.isDown && cursors.right.isDown){
-    //         Player.setVelocityY(-106);
-    //         Player.setVelocityX(106);
-    //     }
-    //     else if(cursors.down.isDown && cursors.left.isDown){
-    //         Player.setVelocityY(106);
-    //         Player.setVelocityX(-106);
-    //     }
-    //     else if(cursors.down.isDown && cursors.right.isDown){
-    //         Player.setVelocityY(106);
-    //         Player.setVelocityX(106);
-    //     }
-    //     else {
-    //         if (cursors.left.isDown) {
-    //             Player.setVelocityX(-150);
-    //         } else if (cursors.right.isDown) {
-    //             Player.setVelocityX(150);
-    //         }
-
-    //         if (cursors.up.isDown) {
-    //             Player.setVelocityY(-150);
-    //         } else if (cursors.down.isDown) {
-    //             Player.setVelocityY(150);
-    //         }
-    //     }
-
-    //     Enemy.children.iterate(enemy => {
-    //         this.physics.moveToObject(enemy, Player, 100);
-    //     });
-
-    //     if (Phaser.Input.Keyboard.JustDown(Dash) && time > lastFired) {
-    //         Player.setVelocity(200);
-    //         lastFired = time + 500;
-    //     }
-    // }
     function update(time) {
         if (GameOver == true) {
             this.scene.stop();
@@ -143,56 +98,37 @@ window.addEventListener("load", () => {
 
         if (!isDashing) {
             let speed = 160;
-            let diagonalSpeed = 106
             Player.setVelocity(0);
-
-            if (cursors.up.isDown && cursors.left.isDown) {
-                Player.setVelocityY(-diagonalSpeed);
-                Player.setVelocityX(-diagonalSpeed);
-            }
-            else if (cursors.up.isDown && cursors.right.isDown) {
-                Player.setVelocityY(-diagonalSpeed);
-                Player.setVelocityX(diagonalSpeed);
-            }
-            else if (cursors.down.isDown && cursors.left.isDown) {
-                Player.setVelocityY(diagonalSpeed);
-                Player.setVelocityX(-diagonalSpeed);
-            }
-            else if (cursors.down.isDown && cursors.right.isDown) {
-                Player.setVelocityY(diagonalSpeed);
-                Player.setVelocityX(diagonalSpeed);
-            }
-            else {
-                if (cursors.left.isDown) Player.setVelocityX(-speed);
-                if (cursors.right.isDown) Player.setVelocityX(speed);
-                if (cursors.up.isDown) Player.setVelocityY(-speed);
-                if (cursors.down.isDown) Player.setVelocityY(speed);
-            }
+            if (cursors.left.isDown) Player.setVelocityX(-speed);
+            if (cursors.right.isDown) Player.setVelocityX(speed);
+            if (cursors.up.isDown) Player.setVelocityY(-speed);
+            if (cursors.down.isDown) Player.setVelocityY(speed);
+            Player.body.velocity.normalize().scale(speed);
         }
 
-        // Dash when pressing Shift
         if (Phaser.Input.Keyboard.JustDown(Dash) && !isDashing && time > lastFired) {
             dash(this);
             makeInvincible(Player);
-            lastFired = time + 500;
+            lastFired = time + 2000;
         }
 
-        // Enemy.children.iterate(enemy => {
-        //     this.physics.moveToObject(enemy, Player, 100);
-        // });
+        Enemy.children.iterate(enemy => {
+            this.physics.moveToObject(enemy, Player, 120);
+            enemy.body.velocity.normalize().scale(120);
+        });
 
     }
 
     function dash(scene) {
         isDashing = true;
         let dashSpeed = 400;
-        let dashDuration = 200; // Dash lasts 200ms
+        let dashDuration = 200;
 
-        // Keep the last movement direction
         let dashX = Player.body.velocity.x > 0 ? dashSpeed : Player.body.velocity.x < 0 ? -dashSpeed : 0;
         let dashY = Player.body.velocity.y > 0 ? dashSpeed : Player.body.velocity.y < 0 ? -dashSpeed : 0;
 
         Player.setVelocity(dashX, dashY);
+        Player.body.velocity.normalize().scale(600);
 
         scene.time.delayedCall(dashDuration, () => {
             Player.setVelocity(0);
@@ -201,10 +137,10 @@ window.addEventListener("load", () => {
     }
     function makeInvincible(player) {
         player.setAlpha(0.5); // Make the player semi-transparent for feedback
-    
+
         // Disable collision
         player.body.checkCollision.none = true;
-    
+
         // Re-enable collision after 2 seconds
         player.scene.time.delayedCall(500, () => {
             player.body.checkCollision.none = false;
