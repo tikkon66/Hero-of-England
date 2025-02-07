@@ -169,7 +169,7 @@ window.addEventListener("load", () => {
         Enemy.getChildren().forEach((sprite) => {
             sprite.setCollideWorldBounds(true);
             sprite.body.setSize(30, 30);
-            sprite.body.setOffset(35, 25);
+            // sprite.body.setOffset(35, 25);
         });
     }
     // CoorDebug.addEventListener("click", () => {
