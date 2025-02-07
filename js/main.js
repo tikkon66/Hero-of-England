@@ -33,7 +33,7 @@ window.addEventListener("load", () => {
     let score = 0;
 
     function preload() {
-        this.load.image('MC', '../img/MC.png');
+        this.load.image('MC', 'img/MC.png');
     }
 
     function create() {
