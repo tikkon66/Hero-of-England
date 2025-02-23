@@ -49,7 +49,7 @@ window.addEventListener("load", () => {
         this.load.image('RunRight1', './img/samurai/run1_right.png');
         this.load.image('RunRight2', './img/samurai/run2_right.png');
         this.load.image('RunRight3', './img/samurai/run3_right.png');
-        this.load.image('RunRight4', '../img/samurai/run4_right.png');
+        this.load.image('RunRight4', './img/samurai/run4_right.png');
         // Samurai Attack Images
         this.load.image('AttackRight', './img/samurai/Attack.png');
         this.load.image('AttackLeft', './img/samurai/Attack_left.png');
