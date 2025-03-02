@@ -31,12 +31,12 @@ window.addEventListener("load", () => {
     let cursors;
     let isDashing = false;
     let isAttacking = false;
+    let isAttackOnCD = false;
     let Dash;
     let direction = 'RightRun';
     let score = 0;
 
     function preload() {
-        this.load.image('MC', './img/MC.png');
         // Idle Images
         this.load.image('IdleRight', './img/samurai/stay_right.png');
         this.load.image('IdleLeft', './img/samurai/stay_left.png');
@@ -53,6 +53,14 @@ window.addEventListener("load", () => {
         // Samurai Attack Images
         this.load.image('AttackRight', './img/samurai/Attack.png');
         this.load.image('AttackLeft', './img/samurai/Attack_left.png');
+        // Attack animation
+        this.load.spritesheet('AttackFrames', './img/playervfx/sprite-sheet.png', {
+            frameWidth: 128, // Ensure this matches the frame width in the sheet
+            frameHeight: 128, // Ensure this matches the frame height in the sheet
+        });
+        // Arrow 
+        this.load.image('Arrow', './img/playervfx/Arrow.png');
+
         // Demon Idle Images
         this.load.image('DemIdleDown', './img/demon/demons_stand_down.png');
         this.load.image('DemIdleUp', './img/demon/demons_stand_up.png');
@@ -71,8 +79,20 @@ window.addEventListener("load", () => {
         this.load.image("DemRunLeft1", './img/demon/demons_walk1_left.png');
         this.load.image("DemRunLeft2", './img/demon/demons_walk2_left.png');
     }
-
     function create() {
+        // Create a graphics object
+        let debugBorder = this.add.graphics();
+
+        // Set border style
+        debugBorder.lineStyle(4, 0xff0000, 1); // Red outline
+
+        // Draw world bounds
+        debugBorder.strokeRect(
+            this.physics.world.bounds.x,
+            this.physics.world.bounds.y,
+            this.physics.world.bounds.width,
+            this.physics.world.bounds.height
+        );
         // Player animation
         this.anims.create({
             key: 'RightRun',
@@ -95,6 +115,16 @@ window.addEventListener("load", () => {
             ],
             frameRate: 5,  // Frames per second
             repeat: -1  // Infinite loop
+        });
+        // Attack animation
+        this.anims.create({
+            key: 'Attack',
+            frames: this.anims.generateFrameNumbers('AttackFrames', {
+                start: 0, // Ensure this matches the first frame in the sheet
+                end: 4, // Ensure this matches the last frame in the sheet
+            }),
+            frameRate: 20,
+            repeat: -1,
         });
         // Enemies animation
         this.anims.create({
@@ -137,10 +167,18 @@ window.addEventListener("load", () => {
         Player = this.physics.add.sprite(500, 350, 'IdleRight');
         // Prevents player from leaving scene borders
         Player.setCollideWorldBounds(true);
+        // Adding arrow sprite
+        Arrow = this.add.sprite(Player.x, Player.y + 50, 'Arrow').setScale(0.17);
+        Arrow.angle = -90;
+        // Camera 
+        this.cameras.main.setBounds(0, 0, 2000, 2000);
+        this.physics.world.setBounds(0, 0, 2000, 2000);
+        this.cameras.main.startFollow(Player, true, 0.1, 0.1); // Follow player smoothly
+        // this.cameras.main.setDeadzone(100, 100);
         // Adding an enemies sprite group as they are pretty similar
         Enemies = this.physics.add.group();
         // We create a new sprite and add it in the group as it is important for handling attack logic
-        Enemy = this.physics.add.sprite(100, 100, 'MC');
+        Enemy = this.physics.add.sprite(100, 100, null);
         Enemies.add(Enemy);
         EnemiesCount = Enemies.getChildren();
         // Prevents enemies from passing through each other
@@ -163,7 +201,11 @@ window.addEventListener("load", () => {
         Dash = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         // Attack key
         this.input.on('pointerup', () => {
-            Attacking(this, Player, Enemies)
+            if (!isAttackOnCD) {
+                Attacking(this, Player, Enemies);
+                isAttackOnCD = true;
+                lastAttacked = this.time.now;
+            }
         });
         // Scoring
         let scoreText = this.add.text(10, 10, `Score: ${score}`, { fontSize: '32px', fill: '#FFF' });
@@ -177,17 +219,19 @@ window.addEventListener("load", () => {
             loop: true
         })
         // Spawns an enemy after 5 seconds
-        this.time.addEvent({
-            delay: 5000,
-            callback: () => {
-                EnemySpawn(this);
-            },
-            callbackScope: this,
-            loop: true
-        })
+        // this.time.addEvent({
+        //     delay: 5000,
+        //     callback: () => {
+        //         EnemySpawn(this);
+        //     },
+        //     callbackScope: this,
+        //     loop: true
+        // })
     }
     // Variable needed for tracking the cooldowns
-    let lastFired = 0;
+    let lastDashed = 0;
+    let lastAttacked = 0;
+    let velocity;
     function update(time) {
         // Stops the game after player touches an enemy
         if (GameOver == true) {
@@ -196,6 +240,7 @@ window.addEventListener("load", () => {
         // Movement
         if (!isDashing && !isAttacking) {
             let speed = 160;
+            Arrow.setAlpha(0.7);
             // Handle horizontal movement
             if (cursors.left.isDown) {
                 Player.setVelocityX(-speed);
@@ -222,7 +267,8 @@ window.addEventListener("load", () => {
 
             // Check if completely stationary to play idle animation
             if (Player.body.velocity.x === 0 && Player.body.velocity.y === 0) {
-                Player.anims.stop()
+                Arrow.setAlpha(0);
+                Player.anims.stop();
                 switch (direction) {
                     case 'LeftRun':
                         Player.setTexture('IdleLeft');
@@ -236,16 +282,23 @@ window.addEventListener("load", () => {
             Player.body.velocity.normalize().scale(speed);
         }
         // Checks whether the dash is possible or not
-        if (Phaser.Input.Keyboard.JustDown(Dash) && !isDashing && time > lastFired && (Player.body.velocity.x != 0 || Player.body.velocity.y != 0)) {
+        if (Phaser.Input.Keyboard.JustDown(Dash) && !isDashing && time > lastDashed && (Player.body.velocity.x != 0 || Player.body.velocity.y != 0)) {
             dash(this);
             makeInvincible(Player);
-            lastFired = time + 2000;
+            lastDashed = time + 2000;
+        }
+        if (isAttackOnCD && this.time.now > lastAttacked + 500) {
+            isAttackOnCD = false; // Reset cooldown
+        }
+        if (isAttacking && (velocity.x != 0 || velocity.y != 0)) {
+            Attack.x = Player.x + velocity.x * 70;
+            Attack.y = Player.y + velocity.y * 70;
         }
         // Make enemies follow the player
-        Enemies.children.iterate(Enemies => {
-            this.physics.moveToObject(Enemies, Player, 120);
-            Enemies.body.velocity.normalize().scale(120);
-        });
+        // Enemies.children.iterate(Enemies => {
+        //     this.physics.moveToObject(Enemies, Player, 120);
+        //     Enemies.body.velocity.normalize().scale(120);
+        // });
         // Loop needed for their animation
         for (let i = 0; i < EnemiesCount.length; i++) {
             const radians = Math.atan2(EnemiesCount[i].body.velocity.x, EnemiesCount[i].body.velocity.y)
@@ -267,6 +320,22 @@ window.addEventListener("load", () => {
                 EnemiesCount[i].anims.play('DemRunLeft', true);
             }
         }
+
+        const radians = Math.atan2(Player.body.velocity.x, Player.body.velocity.y)
+        let degrees = Phaser.Math.RadToDeg(radians);
+
+        // Normalize to 0-360°
+        degrees = (degrees + 360) % 360;
+
+        velocity = Player.body.velocity.clone(); // Clone before modifying
+
+        if (velocity.length() > 0) {
+            velocity.normalize(); // Now safe to normalize
+        }
+
+        Arrow.angle = -degrees;
+        Arrow.x = Player.x + velocity.x * 50;
+        Arrow.y = Player.y + velocity.y * 50;
     }
 
     function dash(scene) {
@@ -281,7 +350,6 @@ window.addEventListener("load", () => {
         Player.body.velocity.normalize().scale(600);
         // Ends the dash after a certain amount of time
         scene.time.delayedCall(dashDuration, () => {
-            Player.setVelocity(0);
             isDashing = false;
         });
     }
@@ -298,20 +366,40 @@ window.addEventListener("load", () => {
         });
     }
     function Attacking(scene, player, enemy) {
-    // Still in need of improvement
+        // Still in need of improvement
         isAttacking = true;
+        player.anims.stop();
         if (direction == "RightRun") {
-            Attack = scene.physics.add.sprite(player.x + 50, player.y, null);
+            velocity.x = velocity.y == 0 ? 1 : 0;
+            Attack = scene.physics.add.sprite(player.x + velocity.x * 70, player.y + velocity.y * 50, null);
+            Attack.anims.play("Attack");
             player.setTexture("AttackRight");
         }
         else if (direction == "LeftRun") {
-            Attack = scene.physics.add.sprite(player.x - 50, player.y, null);
+            velocity.x = velocity.y == 0 ? -1 : 0;
+            Attack = scene.physics.add.sprite(player.x + velocity.x * 70, player.y + velocity.y * 50, null);
+            Attack.flipX = true;
+            Attack.anims.play("Attack");
             player.setTexture("AttackLeft");
         }
-        Attack.body.setSize(50, 90);
-        Attack.setAlpha(0);
+        // if (direction == "RightRun") {
+        //     Attack = scene.physics.add.sprite(player.x, player.y, null);
+        //     Attack.anims.play("Attack");
+        //     player.setTexture("AttackRight");
+        // }
+        // else if (direction == "LeftRun") {
+        //     Attack = scene.physics.add.sprite(player.x, player.y, null);
+        //     Attack.flipX = true;
+        //     Attack.anims.play("Attack");
+        //     player.setTexture("AttackLeft");
+        // }
+        Attack.setSize(128, 128); // Ensures the sprite remains full size
+        Attack.body.setSize(70, 110); // Adjusts only the physics box
+        Attack.body.setOffset(-19, -38);
+        // Attack.setAlpha(0);
         // Removes an enemy after overlapping with their sprite
         scene.physics.add.overlap(Attack, Enemies, (attack, enemy) => {
+            Attack.anims.stop();
             enemy.destroy();
             Enemies.remove(enemy, true, true);
         })
@@ -340,7 +428,7 @@ window.addEventListener("load", () => {
             EnemyX = Math.abs(Player.x - 500);
             EnemyY = Math.abs(Player.y - 350);
         }
-        Enemy = scene.physics.add.sprite(EnemyX, EnemyY, 'MC');
+        Enemy = scene.physics.add.sprite(EnemyX, EnemyY, null);
         Enemies.add(Enemy);
     }
     // CoorDebug.addEventListener("click", () => {
