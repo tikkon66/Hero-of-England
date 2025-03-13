@@ -32,27 +32,27 @@ window.addEventListener("load", () => {
                 });
             }
             // Arrow 
-            this.load.image('Arrow', './img/playervfx/Arrow.png');
+            this.load.image('Arrow', '../img/playervfx/Arrow.png');
 
             // Enemy Images
             {
-            // Demon Idle Images
-            this.load.image('DemIdleDown', './img/demon/demons_stand_down.png');
-            this.load.image('DemIdleUp', './img/demon/demons_stand_up.png');
-            this.load.image('DemIdleRight', './img/demon/demons_stand_right.png');
-            this.load.image('DemIdleLeft', './img/demon/demons_stand_left.png');
-            // Demon Running Images
-            this.load.image("DemRunDown1", './img/demon/demons_walk1_down.png');
-            this.load.image("DemRunDown2", './img/demon/demons_walk2_down.png');
+                // Demon Idle Images
+                this.load.image('DemIdleDown', './img/demon/demons_stand_down.png');
+                this.load.image('DemIdleUp', './img/demon/demons_stand_up.png');
+                this.load.image('DemIdleRight', './img/demon/demons_stand_right.png');
+                this.load.image('DemIdleLeft', './img/demon/demons_stand_left.png');
+                // Demon Running Images
+                this.load.image("DemRunDown1", './img/demon/demons_walk1_down.png');
+                this.load.image("DemRunDown2", './img/demon/demons_walk2_down.png');
 
-            this.load.image("DemRunUp1", './img/demon/demons_walk1_up.png');
-            this.load.image("DemRunUp2", './img/demon/demons_walk2_up.png');
+                this.load.image("DemRunUp1", './img/demon/demons_walk1_up.png');
+                this.load.image("DemRunUp2", './img/demon/demons_walk2_up.png');
 
-            this.load.image("DemRunRight1", './img/demon/demons_walk1_right.png');
-            this.load.image("DemRunRight2", './img/demon/demons_walk2_right.png');
+                this.load.image("DemRunRight1", './img/demon/demons_walk1_right.png');
+                this.load.image("DemRunRight2", './img/demon/demons_walk2_right.png');
 
-            this.load.image("DemRunLeft1", './img/demon/demons_walk1_left.png');
-            this.load.image("DemRunLeft2", './img/demon/demons_walk2_left.png');
+                this.load.image("DemRunLeft1", './img/demon/demons_walk1_left.png');
+                this.load.image("DemRunLeft2", './img/demon/demons_walk2_left.png');
             }
             // Spawner
             this.load.image('Spawner', './img/demon/spawn.png');
@@ -187,7 +187,7 @@ window.addEventListener("load", () => {
             // Adding background image
             this.Background = this.add.tileSprite(0, 0, 2000, 2000, "World").setOrigin(0, 0);
             // Adding a player sprite
-            this.Player = this.physics.add.sprite(500, 350, 'IdleRight').setScale(0.9);
+            this.Player = this.physics.add.sprite(500, 350, 'IdleRight').setScale(0.8);
             this.Player.setSize(40, 50);
             this.Player.setOffset(0, 40);
             this.Player.setDepth(Infinity);
@@ -255,9 +255,9 @@ window.addEventListener("load", () => {
                 // Adding an enemies sprite group as they are pretty similar
                 this.Enemies = this.physics.add.group();
                 // We create a new sprite and add it in the group as it is important for handling attack logic
-                this.Enemy = this.physics.add.sprite(100, 100, 'DemIdleDown').setScale(0.7);
+                this.Enemy = this.physics.add.sprite(100, 100, 'DemIdleDown').setScale(0.6);
                 this.Enemy.setSize(100, 100);
-                this.Enemy.setOffset(45, 45)
+                this.Enemy.setOffset(45, 45);
                 this.Enemies.add(this.Enemy);
                 this.EnemiesCount = this.Enemies.getChildren();
                 // Prevents enemies from passing through each other
@@ -267,6 +267,16 @@ window.addEventListener("load", () => {
             {
                 this.Spawners = this.physics.add.group();
                 this.SpawnerList = this.Spawners.getChildren();
+                this.physics.add.overlap(this.Spawners, this.Houses, (Spawner, House) => {
+                    this.HouseFoundationList[this.HousesList.indexOf(House)].destroy();
+                    House.destroy();
+                    this.HouseSpawn(this);
+                });
+                this.physics.add.overlap(this.Spawners, this.Trees, (Spawner, Tree) => {
+                    this.TreeRootsList[this.TreesList.indexOf(Tree)].destroy();
+                    Tree.destroy();
+                    this.TreeSpawn(this);
+                });
             }
             // Checks whether the player has touched enemy or not
             this.physics.add.collider(this.Player, this.Enemies, () => {
@@ -310,7 +320,7 @@ window.addEventListener("load", () => {
             this.time.addEvent({
                 delay: 5000,
                 callback: () => {
-                    // this.EnemySpawn(this);
+                    this.EnemySpawn(this);
                 },
                 callbackScope: this,
                 loop: true
@@ -328,6 +338,9 @@ window.addEventListener("load", () => {
             }
             for (let i = 0; i < 10; i++) {
                 this.HouseSpawn(this);
+            }
+            for (let i = 0; i < 5; i++) {
+                this.SpawnerPlacement(this);
             }
         }
         update(time) {
@@ -419,10 +432,10 @@ window.addEventListener("load", () => {
                 this.Attack.y = this.Player.y + this.velocity.y * 70;
             }
             // Make enemies follow the player
-            // Enemies.children.iterate(Enemies => {
-            //     this.physics.moveToObject(Enemies, Player, 120);
-            //     Enemies.body.velocity.normalize().scale(120);
-            // });
+            this.Enemies.children.iterate(Enemies => {
+                this.physics.moveToObject(Enemies, this.Player, 120);
+                Enemies.body.velocity.normalize().scale(120);
+            });
             // Loop needed for their animation
             for (let i = 0; i < this.EnemiesCount.length; i++) {
                 const radians = Math.atan2(this.EnemiesCount[i].body.velocity.x, this.EnemiesCount[i].body.velocity.y)
@@ -533,8 +546,8 @@ window.addEventListener("load", () => {
             })
             console.log("Attack");
         }
-        EnemySpawn(scene, spawnX, spawnY) {
-            // let EnemyX, EnemyY;
+        EnemySpawn(scene) {
+            let EnemyX, EnemyY;
             // // Spawns an enemy based on player's position
             // if (this.Player.x > 500 && this.Player.y < 350) {
             //     EnemyX = Math.abs(this.Player.x - 500);
@@ -552,14 +565,34 @@ window.addEventListener("load", () => {
             //     EnemyX = Math.abs(this.Player.x - 500);
             //     EnemyY = Math.abs(this.Player.y - 350);
             // }
-            this.Enemy = scene.physics.add.sprite(spawnX, spawnY, 'DemIdleDown').setScale(0.7);
+            this.SpawnerList = this.Spawners.getChildren();
+            this.SpawnerSelection = Math.floor(Math.random() * this.SpawnerList.length);
+            EnemyX = this.SpawnerList[this.SpawnerSelection].x;
+            EnemyY = this.SpawnerList[this.SpawnerSelection].y;
+            this.Enemy = scene.physics.add.sprite(EnemyX, EnemyY, 'DemIdleDown').setScale(0.6);
+            this.Enemy.setSize(100, 100);
+            this.Enemy.setOffset(45, 45);
             this.Enemies.add(this.Enemy);
         }
         TreeSpawn(scene) {
             this.TreeCoord = {
-                x: Math.floor(Math.random() * 100) * 20,
-                y: Math.floor(Math.random() * 100) * 20
+                x: Math.floor(Math.random() * 2000),
+                y: Math.floor(Math.random() * 2000)
             }
+            while (Math.abs(this.Player.x - this.TreeCoord.x) < 200 && Math.abs(this.Player.y - this.TreeCoord.y) < 200) {
+                this.TreeCoord = {
+                    x: Math.floor(Math.random() * 2000),
+                    y: Math.floor(Math.random() * 2000)
+                }
+            }
+            this.Trees.children.iterate(Tree => {
+                while (Math.abs(Tree.x - this.TreeCoord.x) < 100 && Math.abs(Tree.y - this.TreeCoord.y) < 100) {
+                    this.TreeCoord = {
+                        x: Math.floor(Math.random() * 2000),
+                        y: Math.floor(Math.random() * 2000)
+                    }
+                }
+            });
             this.Tree = scene.physics.add.sprite(this.TreeCoord.x, this.TreeCoord.y, this.TreeImageKeys[Math.floor(Math.random() * this.TreeImageKeys.length)]);
             this.Tree.setSize(40, 60);
             this.TreeRoot = scene.physics.add.sprite(this.TreeCoord.x, this.TreeCoord.y + 50, null);
@@ -573,13 +606,19 @@ window.addEventListener("load", () => {
                 x: Math.floor(Math.random() * 2000),
                 y: Math.floor(Math.random() * 2000)
             }
+            while (Math.abs(this.Player.x - this.HouseCoord.x) < 300 && Math.abs(this.Player.y - this.HouseCoord.y) < 300) {
+                this.HouseCoord = {
+                    x: Math.floor(Math.random() * 2000),
+                    y: Math.floor(Math.random() * 2000)
+                }
+            }
             this.HouseKey = this.FirstHouseImageKeys[Math.floor(Math.random() * this.FirstHouseImageKeys.length)];
             this.House = scene.physics.add.sprite(this.HouseCoord.x, this.HouseCoord.y, this.HouseKey);
             this.HouseFoundation = scene.physics.add.sprite(this.HouseCoord.x, this.HouseCoord.y + 75, null);
             if (this.HouseKey == 'House1') {
                 this.House.setSize(this.House.width - 85, 180);
                 this.House.setOffset(20, 0);
-                this.HouseFoundation.setSize(this.House.width -84, 50);
+                this.HouseFoundation.setSize(this.House.width - 84, 50);
                 this.HouseFoundation.setOffset(-48, 0);
             }
             else {
@@ -590,12 +629,29 @@ window.addEventListener("load", () => {
             this.Houses.add(this.House);
             this.HouseFoundations.add(this.HouseFoundation);
         }
-        // SpawnerPlacement(scene) {
-        //     this.Spawner = scene.physics.add.sprite(100, 100, 'Spawner');
-        //     this.Spawners.add(this.Spawner);
-        //     this.SpawnerSelection = Math.random() * this.SpawnerList.length;
-        //     this.EnemySpawn(scene, this.SpawnerList[this.SpawnerSelection].x, this.SpawnerList[this.SpawnerSelection].y);
-        // }
+        SpawnerPlacement(scene) {
+            this.SpawnerCoord = {
+                x: Math.floor(Math.random() * 100) * 20,
+                y: Math.floor(Math.random() * 100) * 20
+            }
+            while (Math.abs(this.Player.x - this.SpawnerCoord.x) < 300 && Math.abs(this.Player.y - this.SpawnerCoord.y) < 300) {
+                this.SpawnerCoord = {
+                    x: Math.floor(Math.random() * 100) * 20,
+                    y: Math.floor(Math.random() * 100) * 20
+                }
+            }
+            this.Spawners.children.iterate(Spawner => {
+                while (Math.abs(Spawner.x - this.SpawnerCoord.x) < 100 && Math.abs(Spawner.y - this.SpawnerCoord.y) < 100) {
+                    this.SpawnerCoord = {
+                        x: Math.floor(Math.random() * 100) * 20,
+                        y: Math.floor(Math.random() * 100) * 20
+                    }
+                }
+            }
+            );
+            this.Spawner = scene.physics.add.sprite(this.SpawnerCoord.x, this.SpawnerCoord.y, 'Spawner');
+            this.Spawners.add(this.Spawner);
+        }
     }
 
     class PauseMenu extends Phaser.Scene {
@@ -648,7 +704,7 @@ window.addEventListener("load", () => {
 
     const config = {
         type: Phaser.AUTO,
-        width: 1000,
+        width: 1300,
         height: 700,
         backgroundColor: '#3498db',
         scene: [MainGame, PauseMenu, UiMenu],
