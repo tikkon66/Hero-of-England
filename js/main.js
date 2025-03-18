@@ -407,7 +407,7 @@ window.addEventListener("load", () => {
                 for (let i = 0; i < 10; i++) {
                     this.HouseSpawn(this);
                 };
-                for (let i = 0; i < 1; i++) {
+                for (let i = 0; i < 6; i++) {
                     this.SpawnerPlacement(this);
                 };
                 for (let i = 0; i < 3; i++) {
