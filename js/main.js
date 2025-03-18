@@ -749,7 +749,7 @@ window.addEventListener("load", () => {
                 }
                 this.Word = scene.physics.add.sprite(this.WordCoord.x, this.WordCoord.y, 'Word').setScale(0.8);
                 this.Word.setDepth(Infinity);
-                this.WordText = scene.add.text(0, 0, `${word}`, { fontSize: '18px', fill: '#FFF', fontStyle: "bold", wordWrap: { width: 120 } });
+                this.WordText = scene.add.text(0, 0, `${word}`, { fontSize: '18px', fill: '#272727', fontStyle: "bold", wordWrap: { width: 120 } });
                 this.WordText.setX(this.Word.x - this.WordText.width / 2);
                 this.WordText.setY(this.Word.y - this.WordText.height / 2);
                 this.WordText.setDepth(Infinity);
