@@ -60,6 +60,7 @@ window.addEventListener("load", () => {
                 }
                 // Spawner
                 this.load.image('Spawner', './img/demon/spawn.png');
+                this.load.image('Warning', './img/demon/Warning.png');
                 // Tree Images
                 {
                     this.load.image('Tree1', './img/trees/tree_1.png');
@@ -85,7 +86,7 @@ window.addEventListener("load", () => {
                 }
                 // Words and Sentences
                 this.load.image('Word', './img/tablick/nav_tree.png');
-                this.load.image('Sentence', './img/tablick/name_tree.png');
+                // this.load.image('Sentence', '../img/tablick/name_tree.png');
             }
             create() {
 
@@ -208,8 +209,8 @@ window.addEventListener("load", () => {
                 this.Arrow.angle = -90;
 
                 // Camera 
-                this.cameras.main.setBounds(0, 0, 4000, 4000);
-                this.physics.world.setBounds(0, 0, 4000, 4000);
+                this.cameras.main.setBounds(0, 0, 2000, 2000);
+                this.physics.world.setBounds(0, 0, 2000, 2000);
                 this.cameras.main.startFollow(this.Player, true, 0.1, 0.1); // Follow player smoothly
                 // this.cameras.main.setDeadzone(100, 100);
 
@@ -288,6 +289,9 @@ window.addEventListener("load", () => {
                         this.TreeSpawn(this);
                     });
                 }
+                // Spawn Warning
+                this.Warnings = this.physics.add.group();
+                this.WarningList = this.Warnings.getChildren();
 
                 // Words
                 {
@@ -304,7 +308,15 @@ window.addEventListener("load", () => {
 
                 // Sentence
                 {
+                    this.subjects = ["She", "They", "The sun", "He", "We", "The baby", "Birds", "You", "The teacher", "My cat"];
+                    this.verbs = ["read", "play", "shine", "drink", "watch", "sleep", "sing", "write", "explain", "love"];
+                    this.objects = ["a book", "football", "brightly", "coffee", "movies", "peacefully", "in the morning", "emails", "the lesson", "fish"];
+                    this.auxiliaryVerbs = ["do", "does"]; // "do" for plural subjects, "does" for singular subjects
+                    this.negativeAuxiliaryVerbs = ["do not", "does not"];
 
+                    this.registry.set('Subject', this.subjects);
+                    this.registry.set('Object', this.objects);
+                    this.registry.set('Verb', this.verbs);
                 }
 
                 // PickUpRange
@@ -324,10 +336,12 @@ window.addEventListener("load", () => {
                 // Checks whether the player has touched enemy or not
                 // Stops the game after player touches an enemy
                 this.physics.add.collider(this.Player, this.Enemies, () => {
-                    this.scene.pause();
+                    this.scene.stop();
+                    this.scene.stop("UiMenu");
                 })
                 this.physics.add.overlap(this.Player, this.Enemies, () => {
-                    this.scene.pause();
+                    this.scene.stop();
+                    this.scene.stop("UiMenu");
                 })
 
                 // Control keys
@@ -393,12 +407,19 @@ window.addEventListener("load", () => {
                 for (let i = 0; i < 10; i++) {
                     this.HouseSpawn(this);
                 };
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 1; i++) {
                     this.SpawnerPlacement(this);
                 };
-                for (let i = 0; i < 5; i++) {
-                    this.WordSpawn(this);
+                for (let i = 0; i < 3; i++) {
+                    this.WordSpawn(this, this.verbs[Math.floor(Math.random() * this.verbs.length)]);
+                    this.WordSpawn(this, this.subjects[Math.floor(Math.random() * this.subjects.length)]);
+                    this.WordSpawn(this, this.objects[Math.floor(Math.random() * this.objects.length)]);
+                    // this.WordSpawn(this, this.verbs[-1]);
+                    // this.WordSpawn(this, this.subjects[-1]);
+                    // this.WordSpawn(this, this.objects[-1]);
                 };
+
+                this.scene.launch("UiMenu");
 
             }
             update(time) {
@@ -442,9 +463,6 @@ window.addEventListener("load", () => {
                     if (Phaser.Input.Keyboard.JustDown(this.PickUp)) {
                         this.WordTextList[this.WordsList.indexOf(Word)].destroy();
                         Word.destroy();
-                        console.log("PickUp");
-                        console.log(Word.x);
-                        console.log(Word.y);
                     }
                 });
 
@@ -511,10 +529,10 @@ window.addEventListener("load", () => {
                 }
 
                 // Make enemies follow the player
-                this.Enemies.children.iterate(Enemies => {
-                    this.physics.moveToObject(Enemies, this.Player, 120);
-                    Enemies.body.velocity.normalize().scale(120);
-                });
+                // this.Enemies.children.iterate(Enemies => {
+                //     this.physics.moveToObject(Enemies, this.Player, 120);
+                //     Enemies.body.velocity.normalize().scale(120);
+                // });
                 // Loop needed for their animation
                 for (let i = 0; i < this.EnemiesCount.length; i++) {
                     const radians = Math.atan2(this.EnemiesCount[i].body.velocity.x, this.EnemiesCount[i].body.velocity.y)
@@ -538,7 +556,7 @@ window.addEventListener("load", () => {
                 }
 
                 // Stops the enemy spawn upon certain number of enemies
-                if (this.EnemiesCount.length < 10) {
+                if (this.EnemiesCount.length < 12) {
                     this.EnemySpawnTimer.paused = false;
                 }
                 else {
@@ -626,13 +644,21 @@ window.addEventListener("load", () => {
                 let EnemyX, EnemyY;
                 this.SpawnerList = this.Spawners.getChildren();
                 this.SpawnerSelection = Math.floor(Math.random() * this.SpawnerList.length);
-                EnemyX = this.SpawnerList[this.SpawnerSelection].x;
-                EnemyY = this.SpawnerList[this.SpawnerSelection].y;
-                this.Enemy = scene.physics.add.sprite(EnemyX, EnemyY, 'DemIdleDown').setScale(0.6);
-                this.Enemy.setSize(100, 100);
-                this.Enemy.setOffset(45, 45);
-                this.Enemies.add(this.Enemy);
-                this.EnemiesCount = this.Enemies.getChildren();
+                this.WarningList[this.SpawnerSelection].setAlpha(1);
+                this.time.addEvent({
+                    delay: 1000,
+                    callback: () => {
+                        EnemyX = this.SpawnerList[this.SpawnerSelection].x;
+                        EnemyY = this.SpawnerList[this.SpawnerSelection].y;
+                        this.Enemy = scene.physics.add.sprite(EnemyX, EnemyY, 'DemIdleDown').setScale(0.6);
+                        this.Enemy.setSize(100, 100);
+                        this.Enemy.setOffset(45, 45);
+                        this.Enemies.add(this.Enemy);
+                        this.EnemiesCount = this.Enemies.getChildren();
+                        this.WarningList[this.SpawnerSelection].setAlpha(0);
+                    },
+                    callbackScope: this
+                });
             }
             TreeSpawn(scene) {
                 this.TreeCoord = {
@@ -710,25 +736,22 @@ window.addEventListener("load", () => {
                 }
                 );
                 this.Spawner = scene.physics.add.sprite(this.SpawnerCoord.x, this.SpawnerCoord.y, 'Spawner');
+                this.Warning = scene.add.sprite(this.SpawnerCoord.x, this.SpawnerCoord.y, 'Warning').setScale(0.1);
+                this.Warning.setAlpha(0);
+                this.Warnings.add(this.Warning);
+                this.WarningList = this.Warnings.getChildren();
                 this.Spawners.add(this.Spawner);
             }
-            WordSpawn(scene) {
+            WordSpawn(scene, word) {
                 this.WordCoord = {
                     x: Math.floor(Math.random() * 900) + 50,
                     y: Math.floor(Math.random() * 900) + 50
                 }
-                console.log(this.WordCoord);
-                while (Math.abs(this.circle.x - this.WordCoord.x) < 200 && Math.abs(this.circle.y - this.WordCoord.y) < 200) {
-                    this.WordCoord = {
-                        x: Math.floor(Math.random() * 900) + 50,
-                        y: Math.floor(Math.random() * 900) + 50
-                    }
-                }
-                console.log(this.WordCoord);
-                this.Word = scene.physics.add.sprite(this.WordCoord.x, this.WordCoord.y, 'Word');
-                console.log(this.Word.x);
-                console.log(this.Word.y);
-                this.WordText = scene.add.text(this.WordCoord.x - 20, this.WordCoord.y - 20, 'Word', { fontSize: '20px', fill: '#FFF' });
+                this.Word = scene.physics.add.sprite(this.WordCoord.x, this.WordCoord.y, 'Word').setScale(0.8);
+                this.Word.setDepth(Infinity);
+                this.WordText = scene.add.text(0, 0, `${word}`, { fontSize: '18px', fill: '#FFF', fontStyle: "bold", wordWrap: { width: 120 } });
+                this.WordText.setX(this.Word.x - this.WordText.width / 2);
+                this.WordText.setY(this.Word.y - this.WordText.height / 2);
                 this.WordText.setDepth(Infinity);
                 this.WordTexts.add(this.WordText);
                 this.WordTextList = this.WordTexts.getChildren();
@@ -747,10 +770,10 @@ window.addEventListener("load", () => {
 
             create() {
                 // Add text to indicate the game is paused
-                this.add.text(400, 300, 'Game Paused', { fontSize: '32px', fill: '#FFF' }).setOrigin(0);
+                this.add.text(550, 300, 'Game Paused', { fontSize: '32px', fill: '#FFF' }).setOrigin(0);
 
                 // Add a resume button
-                const resumeButton = this.add.text(450, 400, 'Resume', { fontSize: '32px', fill: '#FFF' }).setOrigin(0).setInteractive();
+                const resumeButton = this.add.text(600, 400, 'Resume', { fontSize: '32px', fill: '#FFF' }).setOrigin(0).setInteractive();
 
                 // Resume the game when the resume button is clicked
                 resumeButton.on('pointerdown', () => {
@@ -770,7 +793,7 @@ window.addEventListener("load", () => {
 
         class UiMenu extends Phaser.Scene {
             constructor() {
-                super({ key: "UiMenu", active: true });
+                super({ key: "UiMenu" });
             }
 
             preload() {
@@ -790,7 +813,15 @@ window.addEventListener("load", () => {
                     loop: true
                 })
 
-                this.Sentence = this.add.sprite(500, 70, 'Sentence');
+                this.Sentence = this.add.sprite(400, 70, 'Sentence').setScale(1.2);
+                this.subject = this.registry.get('Subject');
+                this.Words = this.add.group();
+                // for(let i = 0; i < 3; i++){
+                //     this.Word = this.add.text(240 + i * 100, 30, {fontSize: '30px', fill: '#000'});
+                //     this.Words.add(this.Word);
+                // }
+            }
+            update() {
             }
         }
 
