@@ -335,11 +335,11 @@ window.addEventListener("load", () => {
 
                 // Checks whether the player has touched enemy or not
                 // Stops the game after player touches an enemy
-                this.physics.add.collider(this.Player, this.Enemies, () => {
+                this.PlayerEnemyCollider = this.physics.add.collider(this.Player, this.Enemies, () => {
                     this.scene.stop();
                     this.scene.stop("UiMenu");
                 })
-                this.physics.add.overlap(this.Player, this.Enemies, () => {
+                this.PlayerEnemyOverlap = this.physics.add.overlap(this.Player, this.Enemies, () => {
                     this.scene.stop();
                     this.scene.stop("UiMenu");
                 })
@@ -598,12 +598,14 @@ window.addEventListener("load", () => {
                 player.setAlpha(0.5); // Make the player semi-transparent for feedback
 
                 // Disable collision
-                this.physics.world.removeCollider(player);
+                this.PlayerEnemyCollider.active = false;
+                this.PlayerEnemyOverlap.active = false;
 
 
                 // Re-enable collision after 2 seconds
                 player.scene.time.delayedCall(500, () => {
-                    player.body.checkCollision.none = false;
+                    this.PlayerEnemyCollider.active = true;
+                    this.PlayerEnemyOverlap.active = true;
                     player.setAlpha(1); // Restore visibility
                 });
             }
@@ -749,7 +751,7 @@ window.addEventListener("load", () => {
                 }
                 this.Word = scene.physics.add.sprite(this.WordCoord.x, this.WordCoord.y, 'Word').setScale(0.8);
                 this.Word.setDepth(Infinity);
-                this.WordText = scene.add.text(0, 0, `${word}`, { fontSize: '18px', fill: '#272727', fontStyle: "bold", wordWrap: { width: 120 } });
+                this.WordText = scene.add.text(0, 0, `${word}`, { fontSize: '18px', fill: '#272727', fontStyle: "bold", wordWrap: { width: 100 } });
                 this.WordText.setX(this.Word.x - this.WordText.width / 2);
                 this.WordText.setY(this.Word.y - this.WordText.height / 2);
                 this.WordText.setDepth(Infinity);
