@@ -529,10 +529,10 @@ window.addEventListener("load", () => {
                 }
 
                 // Make enemies follow the player
-                // this.Enemies.children.iterate(Enemies => {
-                //     this.physics.moveToObject(Enemies, this.Player, 120);
-                //     Enemies.body.velocity.normalize().scale(120);
-                // });
+                this.Enemies.children.iterate(Enemies => {
+                    this.physics.moveToObject(Enemies, this.Player, 120);
+                    Enemies.body.velocity.normalize().scale(120);
+                });
                 // Loop needed for their animation
                 for (let i = 0; i < this.EnemiesCount.length; i++) {
                     const radians = Math.atan2(this.EnemiesCount[i].body.velocity.x, this.EnemiesCount[i].body.velocity.y)
