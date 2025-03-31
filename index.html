@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/reset.css">
+    <link rel="stylesheet" href="style/style.css">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="./js/main.js"></script>
+    <title>Hero of England</title>
+</head>
+
+<body>
+    <section id="MainMenu">
+    <div id="monolog_1" class="monolog-item">
+        <p class="tablet-text"></p>
+    </div>
+    <div id="monolog_2" class="monolog-item">
+        <p class="tablet-text"></p>
+    </div>
+    <div id="monolog_3" class="monolog-item">
+        <p class="tablet-text"></p>
+    </div>
+    <div id="monolog_4" class="monolog-item">
+        <p class="tablet-text"></p>
+    </div>
+    <div id="monolog_5" class="monolog-item">
+        <p class="tablet-text"> </p>
+    </div>
+    <div id="monolog_6" class="monolog-item">
+        <p class="tablet-text"></p>
+    </div>
+
+    <img id="elder_smile" class="fire-elder" src="img2/scene/elder_smile.png" alt="smile elder">
+    <img id="elder_angry" class="fire-elder" src="img2/scene/elder_angry.png" alt="angry elder">
+
+    <div id="menu" class="menu">
+        <div id="continuou" class="button">START</div>
+        <div id="lesson" class="button">LESSON</div>
+        <div id="backToPage" class="button">BACK</div>
+    </div>
+
+    <div id="menu2" class="menu">
+        <strong class="loose_text">you loose</strong>
+        <div id="restart" class="button">RESTART</div>
+        <div id="lesson2" class="button">LESSON</div>
+        <div id="backToPage2" class="button">BACK</div>
+    </div>
+
+    <div id="victory_word" class="victory">
+        <div class="victory-lent">
+            <p class="victory-title">VICTORY</p>
+        </div>
+
+        <div id="prize_1" class="prize">
+            <div class="prize-village">
+                <img class="lock-on" src="img2/icons/lock_on.png" alt="lock">
+                <div class="prize-posit">
+                    <p class="present_text">Present - <br>
+                        Perfect</p>
+                </div>
+            </div>
+        </div>
+        <div id="backWithSimple" class="button">BACK</div>
+    </div>
+
+    <div id="victory_fight" class="victory">
+        <div class="victory-lent">
+            <p class="victory-title">VICTORY</p>
+        </div>
+
+        <div id="prize_1" class="prize">
+            <div class="cristal-tablet">
+                <img class="cristal-image" src="img2/icons/cristal.png" alt="cristal">
+                <p id="victory-cristal_count">0</p>
+            </div>
+        </div>
+        <div class="button">BACK</div>
+    </div>
+
+    <div id="words_1" class="lesson-words">
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">I</div>
+                <div class="words_item">like</div>
+                <div class="words_item">apples</div>
+                <div class="words_item">She</div>
+                <div class="words_item">reads</div>
+                <div class="words_item">books</div>
+                <div class="words_item">don’t</div>
+                <div class="words_item">drink</div>
+                <div class="words_item">coffee</div>
+            </div>
+
+            <div>
+                <div class="words_item">я</div>
+                <div class="words_item">нравится</div>
+                <div class="words_item">яблоки</div>
+                <div class="words_item">она</div>
+                <div class="words_item">читает</div>
+                <div class="words_item">книги</div>
+                <div class="words_item">не</div>
+                <div class="words_item">пью</div>
+                <div class="words_item">кофе</div>
+
+            </div>
+        </div>
+
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">doesn’t</div>
+                <div class="words_item">watch</div>
+                <div class="words_item">TV</div>
+                <div class="words_item">Is</div>
+                <div class="words_item">she</div>
+                <div class="words_item">sister</div>
+                <div class="words_item">Are</div>
+                <div class="words_item">you</div>
+                <div class="words_item">student</div>
+            </div>
+
+            <div>
+                <div class="words_item">не(he, she, it)</div>
+                <div class="words_item">смотрит</div>
+                <div class="words_item">телевизор</div>
+                <div class="words_item">есть(he, she, it)</div>
+                <div class="words_item">она</div>
+                <div class="words_item">сестра</div>
+                <div class="words_item">есть(you)</div>
+                <div class="words_item">ты</div>
+                <div class="words_item">студент</div>
+            </div>
+            <img id="word1Close" class="next-image" src="img2/tablick/next.png" alt="next">
+        </div>
+    </div>
+
+
+    <div id="words_2" class="lesson-words">
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">eating</div>
+                <div class="words_item">pizza</div>
+                <div class="words_item">reading</div>
+                <div class="words_item">news</div>
+                <div class="words_item">sleeping</div>
+                <div class="words_item">working</div>
+                <div class="words_item">watching</div>
+                <div class="words_item">dansing</div>
+                <div class="words_item">careful</div>
+            </div>
+
+            <div>
+                <div class="words_item">ем</div>
+                <div class="words_item">пицца</div>
+                <div class="words_item">читает</div>
+                <div class="words_item">новости</div>
+                <div class="words_item">сплю</div>
+                <div class="words_item">работает</div>
+                <div class="words_item">смотришь</div>
+                <div class="words_item">танцует</div>
+                <div class="words_item">осторожный</div>
+            </div>
+        </div>
+
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">kind</div>
+                <div class="words_item">nice</div>
+                <div class="words_item">lazy</div>
+                <div class="words_item">honest</div>
+                <div class="words_item">rude</div>
+                <div class="words_item">being</div>
+                <div class="words_item">isn’t</div>
+                <div class="words_item">aren’t</div>
+                <div class="words_item">am</div>
+            </div>
+
+            <div>
+                <div class="words_item">добрые</div>
+                <div class="words_item">милый</div>
+                <div class="words_item">ленивые</div>
+                <div class="words_item">честный</div>
+                <div class="words_item">грубая</div>
+                <div class="words_item">веду себя</div>
+                <div class="words_item">не является(he, she, it)</div>
+                <div class="words_item">не являются(you, we, they)</div>
+                <div class="words_item">есть(I)</div>
+                <div style="right: 50px;" class="next">
+                    <img class="next-image" src="img2/tablick/next.png" alt="next">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="words_3" class="lesson-words">
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">seen</div>
+                <div class="words_item">Paris</div>
+                <div class="words_item">finished</div>
+                <div class="words_item">school</div>
+                <div class="words_item">eaten</div>
+                <div class="words_item">fish</div>
+                <div class="words_item">visited</div>
+                <div class="words_item">London</div>
+                <div class="words_item">tried</div>
+            </div>
+
+            <div>
+                <div class="words_item">видел</div>
+                <div class="words_item">Париж</div>
+                <div class="words_item">закончила</div>
+                <div class="words_item">школа</div>
+                <div class="words_item">ел</div>
+                <div class="words_item">рыба</div>
+                <div class="words_item">посещал</div>
+                <div class="words_item">Лондон</div>
+                <div class="words_item">пробовал</div>
+            </div>
+        </div>
+
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">sushi</div>
+                <div class="words_item">called</div>
+                <div class="words_item">mom</div>
+                <div class="words_item">busy</div>
+                <div class="words_item">happy</div>
+                <div class="words_item">late</div>
+                <div class="words_item">sick</div>
+                <div class="words_item">here</div>
+                <div class="words_item">been</div>
+            </div>
+
+            <div>
+                <div class="words_item">суши</div>
+                <div class="words_item">звонила</div>
+                <div class="words_item">мама</div>
+                <div class="words_item">занятый</div>
+                <div class="words_item">счастливые</div>
+                <div class="words_item">опоздали</div>
+                <div class="words_item">больной</div>
+                <div class="words_item">здесь</div>
+                <div class="words_item">был</div>
+                <div style="right: 50px;" class="next">
+                    <img class="next-image" src="img2/tablick/next.png" alt="next">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="words_4" class="lesson-words">
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">running</div>
+                <div class="words_item">singing</div>
+                <div class="words_item">studying</div>
+                <div class="words_item">sleeping</div>
+                <div class="words_item">working</div>
+                <div class="words_item">crying</div>
+                <div class="words_item">patient</div>
+                <div class="words_item">polite</div>
+                <div class="words_item">nice</div>
+            </div>
+
+            <div>
+                <div class="words_item">бегаю</div>
+                <div class="words_item">поет</div>
+                <div class="words_item">учусь</div>
+                <div class="words_item">спал</div>
+                <div class="words_item">работаешь</div>
+                <div class="words_item">плачет</div>
+                <div class="words_item">терпеливый</div>
+                <div class="words_item">вежливые</div>
+                <div class="words_item">добрый</div>
+            </div>
+        </div>
+
+        <div class="lesson-words_item">
+            <div>
+                <div class="words_item">fair</div>
+                <div class="words_item">rude</div>
+                <div class="words_item">kind</div>
+                <div class="words_item">been</div>
+                <div class="words_item">being</div>
+                <div class="words_item">haven’t</div>
+                <div class="words_item">hasn’t</div>
+                <div class="words_item">have</div>
+                <div class="words_item">has</div>
+            </div>
+
+            <div>
+                <div class="words_item">справедливые</div>
+                <div class="words_item">грубый</div>
+                <div class="words_item">добрая</div>
+                <div class="words_item">был</div>
+                <div class="words_item">веду себя</div>
+                <div class="words_item">не, не имею(he, she, it)</div>
+                <div class="words_item">не, не имею(you, we, they, I)</div>
+                <div class="words_item">имею(you, we, they, I)</div>
+                <div class="words_item">имеет(he, she, it)</div>
+                <div style="right: 50px;" class="next">
+                    <img class="next-image" src="img2/tablick/next.png" alt="next">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="lesson_1" class="lesson">
+
+        <p class="lesson-title">Present simple используется для</p>
+        <div class="use-for">
+            <div class="words_item"> Фактов</div>
+            <div class="words_item">Солнце восходит с юга. → The sun rises from the south.</div>
+            <div class="words_item"> Привычек</div>
+            <div class="words_item">Я пью кофе по утрам. → I drink coffee in the mornings.</div>
+            <div class="words_item"> Расписаний</div>
+            <div class="words_item">Поезд отезжает в 9 утра. → The train leaves at 9 a.m.</div>
+        </div>
+
+
+        <p class="lesson-title">Формула для verb</p>
+        <div class="formula-verb">
+            <div class="words_item gridbox_1">Положительный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item orange">drink</div>
+            <div class="words_item gridbox_2">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item orange">verb /s</div>
+            <div class="words_item gridbox_2">object</div>
+
+            <div class="words_item gridbox_4">Отрицательный</div>
+            <div class="words_item green">You</div>
+            <div class="words_item blue">don’t</div>
+            <div class="words_item orange">go</div>
+            <div class="words_item">to college</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item blue">don’t/ doesn’t</div>
+            <div class="words_item orange">verb /s</div>
+            <div class="words_item">place</div>
+
+            <div class="words_item gridbox_5">Вопросительный</div>
+            <div class="words_item blue">Do</div>
+            <div class="words_item green">we</div>
+            <div class="words_item orange">go</div>
+            <div class="words_item">to college</div>
+            <div class="words_item blue">do/ does</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item orange">verb /s</div>
+            <div class="words_item">place</div>
+        </div>
+
+
+        <p class="lesson-title">Формула для to be</p>
+        <div class="formula-verb">
+            <div class="words_item gridbox_1">Положительный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">am</div>
+            <div class="words_item gridbox_2">a student</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item red">to be</div>
+            <div class="words_item gridbox_2">predicate noun</div>
+
+            <div class="words_item gridbox_4">Отрицательный</div>
+            <div class="words_item green">You</div>
+            <div class="words_item red">aren’t</div>
+            <div class="words_item gridbox_2">a student</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item red">to be +not</div>
+            <div class="words_item gridbox_2">predicate noun</div>
+
+            <div class="words_item gridbox_5">Вопросительный</div>
+            <div class="words_item red">Are</div>
+            <div class="words_item green">they</div>
+            <div class="words_item gridbox_2">students</div>
+            <div class="words_item red">to be</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item gridbox_2">predicate noun</div>
+        </div>
+
+        <img class="lesson-image" src="" alt="screen-game">
+        <p class="lesson-title">Перемещение - по клавишам WASD</p>
+
+
+        <img class="lesson-image" src="" alt="screen-game">
+        <p class="lesson-title">Атака - левая кнопка мыши</p>
+
+
+        <img class="lesson-image" src="" alt="screen-game">
+        <p class="lesson-title">Прыжок - пробел</p>
+
+
+        <img class="lesson-image" src="" alt="screen-game">
+        <p class="lesson-title">Взятие предмета - клавиша E</p>
+
+
+        <div class="lesson-monolog">
+            <div id="monolog_lesson">
+                <p class="tablet-text">Чтобы победить в игре, нужно подбирать табличка с подходящим.</p>
+            </div>
+
+            <img id="elder_inverse" src="img2/scene/elder_inverse.png" alt="elder">
+            <div style="right: 50px;" class="next">
+                <img class="next-image" src="img2/tablick/next.png" alt="next">
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="lesson_2" class="lesson">
+
+        <p class="lesson-title">Present Continuous используется для</p>
+        <div class="use-for">
+            <div class="words_item"> Действий, происходящих в данный момент</div>
+            <div class="words_item">Я сейчас читаю книгу. → I am reading a book now.</div>
+            <div class="words_item"> Временных ситуаций</div>
+            <div class="words_item">Он живёт в Лондоне этим летом. → He is living in London this summer.</div>
+            <div class="words_item"> Запланированных действий в будущем</div>
+            <div class="words_item">Мы встречаемся завтра. → We are meeting tomorrow.</div>
+            <div class="words_item"> Раздражающих привычек</div>
+            <div class="words_item">Он всегда опаздывает! → He is always being late!</div>
+        </div>
+
+
+        <p class="lesson-title">Формула предложение</p>
+        <div class="formula-verb_3">
+            <div class="words_item gridbox_1">Положительный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">am</div>
+            <div class="words_item orange">drinking</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item  red">to be</div>
+            <div class="words_item orange">verb + ing</div>
+            <div class="words_item">object</div>
+
+            <div class="words_item gridbox_4">Отрицательный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">am not</div>
+            <div class="words_item orange">drinking</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item  red">to be + not</div>
+            <div class="words_item orange">verb + ing</div>
+            <div class="words_item">object</div>
+
+            <div class="words_item gridbox_5">Вопросительный</div>
+            <div class="words_item red">am</div>
+            <div class="words_item green">I</div>
+            <div class="words_item orange">drinking</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item  red">to be</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item orange">verb + ing</div>
+            <div class="words_item">object</div>
+        </div>
+        <div style="position: relative; min-height: 30px; margin-top: 40px; width: 100%;">
+            <img class="next-image" src="img2/tablick/next.png" alt="next">
+        </div>
+    </div>
+
+
+    <div id="lesson_3" class="lesson">
+
+        <p class="lesson-title">Present perfect используется для</p>
+        <div class="use-for">
+            <div class="words_item"> Опыт (что-то случилось, но не указывается когда)</div>
+            <div class="words_item">Я был в Париже. → I have been to Paris.</div>
+            <div class="words_item"> Действия, начавшиеся в прошлом и продолжающиеся сейчас</div>
+            <div class="words_item">Я живу здесь с 2020 года. → I have lived here since 2020.</div>
+            <div class="words_item"> Недавние события с результатом в настоящем</div>
+            <div class="words_item">Я потерял ключи. → I have lost my keys. (сейчас у меня их нет)</div>
+            <div class="words_item"> Жизненные достижения</div>
+            <div class="words_item">Она написала три книги. → She has written three books.</div>
+            <div class="words_item"> Действия, произошедшие в период, который ещё не закончился</div>
+            <div class="words_item">Я выпил три чашки кофе сегодня. → I have drunk three cups of coffee today.
+                (сегодня ещё не закончился)</div>
+        </div>
+
+
+        <p class="lesson-title">Формула предложение</p>
+        <div class="formula-verb_3">
+
+            <div class="words_item gridbox_1">Положительный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">have</div>
+            <div class="words_item orange">drunk</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item  red">have /has</div>
+            <div class="words_item orange">verb (3 form)</div>
+            <div class="words_item">object</div>
+
+            <div class="words_item gridbox_4">Отрицательный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">haven't</div>
+            <div class="words_item orange">drunk</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item  red">have /has + not</div>
+            <div class="words_item orange">verb (3 form)</div>
+            <div class="words_item">object</div>
+
+            <div class="words_item gridbox_5">Вопросительный</div>
+            <div class="words_item red">have</div>
+            <div class="words_item green">I</div>
+            <div class="words_item orange">drunk</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item  red">have /has</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item orange">verb (3 form)</div>
+            <div class="words_item">object</div>
+        </div>
+        <div style="position: relative; min-height: 30px; margin-top: 40px; width: 100%;">
+            <img class="next-image" src="img2/tablick/next.png" alt="next">
+        </div>
+    </div>
+
+
+    <div id="lesson_4" class="lesson">
+
+        <p class="lesson-title">Present perfect Continuous используется для</p>
+        <div class="use-for">
+            <div class="words_item"> Действий, начавшихся в прошлом и продолжающихся до сих пор</div>
+            <div class="words_item">Я работаю здесь с 2020 года. → I have been working here since 2020.</div>
+            <div class="words_item"> Действий, которые только что закончились, но их результат виден</div>
+            <div class="words_item">Ты весь день бегаешь, почему ты такой уставший? → You have been running all day,
+                why
+                are you so tired?</div>
+            <div class="words_item"> Длительных действий с "how long"</div>
+            <div class="words_item">Как долго ты учишь английский? → How long have you been learning English?</div>
+        </div>
+
+        <p class="lesson-title">Формула предложение</p>
+        <div class="formula-verb_2">
+            <div class="words_item gridbox_1">Положительный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">have</div>
+            <div class="words_item yellow">been</div>
+            <div class="words_item orange">drinking</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item  red">have /has</div>
+            <div class="words_item yellow">been</div>
+            <div class="words_item orange">verb + ing</div>
+            <div class="words_item">object</div>
+
+            <div class="words_item gridbox_4">Отрицательный</div>
+            <div class="words_item green">I</div>
+            <div class="words_item red">haven't</div>
+            <div class="words_item yellow">been</div>
+            <div class="words_item orange">drinking</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item  red">have /has + not</div>
+            <div class="words_item yellow">been</div>
+            <div class="words_item orange">verb + ing</div>
+            <div class="words_item">object</div>
+
+            <div class="words_item gridbox_5">Вопросительный</div>
+            <div class="words_item red">have</div>
+            <div class="words_item green">I</div>
+            <div class="words_item yellow">been</div>
+            <div class="words_item orange">drinking</div>
+            <div class="words_item">coffee</div>
+            <div class="words_item  red">have /has</div>
+            <div class="words_item green">subject</div>
+            <div class="words_item yellow">been</div>
+            <div class="words_item orange">verb + ing</div>
+            <div class="words_item">object</div>
+        </div>
+        <div style="position: relative; min-height: 30px; margin-top: 40px; width: 100%;">
+            <img class="next-image" src="img2/tablick/next.png" alt="next">
+        </div>
+    </div>
+
+
+
+    <div id="brightness">
+        <div class="menu" id="MainMenu">
+            <div class="button" id="Start">START</div>
+            <div class="button">LESSON</div>
+            <div class="button">BACK</div>
+        </div>
+
+        <img class="background" src="img2/world_elemets/birds_animation.gif" alt="">
+        <header id="header">
+            <nav>
+                <ul class="nav-list">
+                    <li><img id="profil_link" class="nav-list_image" src="img2/icons/profil.png" alt="icon_profil">
+                    </li>
+                    <li><img id="fire_link" class="nav-list_image" src="img2/icons/fire.png" alt="icon_fire"></li>
+                    <li><img id="katana_link" class="nav-list_image" src="img2/icons/katana.png" alt="icon_katana">
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="cristal">
+                <img class="cristal-image" src="img2/icons/cristal.png" alt="icon_cristal">
+                <p class="cristal_count" id="cristal_count">0</p>
+            </div>
+        </header>
+
+        <header id="fire-game_header" class="fire-game_header">
+            <img id="menu-icon" class="menu-icon" src="img2/icons/menu.png" alt="menu">
+
+            <div class="score">
+                <p class="score_text">score:</p>
+                <p id="score_count"> 0</p>
+            </div>
+        </header>
+
+        <div id="profil" class="page">
+            <main class="profil">
+                <div class="avatar">
+                    <img id="avatar" class="avatar-image" src="img2/samurai/stay_right_big.png" alt="avatar">
+                </div>
+
+                <div class="profil-setting">
+                    <div class="nickname">
+                        <input id="nickname-place" class="nickname-place" type="name" placeholder="Nickname">
+                        <label id="nickname-confirm" class="nickname-confirm"></label>
+                    </div>
+
+                    <div class="avatar-choise">
+                        <div id="avatar_white" class="avatar-choise_item">
+                            <img class="avatar-choise_image" src="img2/samurai/stay_right_big.png" alt="avatar_white">
+                        </div>
+
+                        <div id="avatar_black" class="avatar-choise_item">
+                            <img class="avatar-choise_image" src="img2/samurai/stay_right2_big.png" alt="avatar_black">
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="fire" class="page">
+            <div class="fire-monolog">
+                <div class="fire-cloud">
+                    <p class="tablet-text">
+                        Изучи слова, которые будет попадатся в боях, без них тебе никак!
+                    </p>
+                </div>
+                <div id="start_fire" class="button">START</div>
+            </div>
+            <img class="fire-elder" src="img2/scene/elder_angry.png" alt="elder">
+        </div>
+
+        <div id="fire-game" class="page">
+            <h1 style="font-size: 70px; align-items: center; margin-bottom: 20px;" class="fire-game_title">Найди
+                правильные
+                пары перевода</h1>
+
+            <div class="test">
+                <div class="test-list">
+                    <div id="us1" class="test-list_item us">
+                    </div>
+                    <div id="us2" class="test-list_item us">
+                    </div>
+                    <div id="us3" class="test-list_item us">
+                    </div>
+                </div>
+
+                <div class="test-list">
+                    <div id="ru1" class="test-list_item ru">
+                    </div>
+                    <div id="ru2" class="test-list_item ru">
+                    </div>
+                    <div id="ru3" class="test-list_item ru">
+                    </div>
+                </div>
+
+                <img id="checkTrans" class="next-image" src="img2/tablick/next.png" alt="next">
+            </div>
+
+        </div>
+
+        <div id="katana" class="page">
+            <main>
+                <div class="present simple">
+                    <div id="present-simple" class="present-simple array">
+                        <img id="present-simplelock" class="lock" src="img2/icons/lock_of.png" alt="lock">
+
+                        <div class="tablet left-posit">
+                            <p class="present_text">Present - <br> Simple</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="present perfect">
+                    <div class="present-perfect array">
+                        <img class="lock" src="img2/icons/lock_of.png" alt="lock">
+
+                        <div class="tablet left-posit">
+                            <p class="present_text">Present - <br>
+                                Perfect</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="present continuous">
+                    <div class="present-continuous array">
+                        <img class="lock" src="img2/icons/lock_of.png" alt="lock">
+
+                        <div class="tablet right-posit">
+                            <p class="present_text">Past - <br>
+                                Continuous</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="present perfect-continuous">
+                    <div class="present-perfect-continuous array">
+                        <img class="lock" src="img2/icons/lock_of.png" alt="lock">
+
+                        <div class="tablet right-posit perfect-continuous-tablet">
+                            <p class="present_text">Present Perfect <br>
+                                Continuous</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="present final">
+                    <div class="final_array array">
+                        <img class="lock" src="img2/icons/lock_of.png" alt="lock">
+
+                        <div class="final_tablet array">
+                            <p class="final_text">FINAL</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <a class="footer_text" href="">TIKKON & ANUAR</a>
+    </footer>
+
+    </section>
+</body>
+<script src="js/front.js"></script>
+
+</html>
