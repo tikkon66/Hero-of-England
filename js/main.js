@@ -12,83 +12,83 @@ window.addEventListener("load", () => {
                 }
                 preload() {
                     // Background Image
-                    this.load.image('World', 'img2/world_elemets/pole_fight.png');
+                    this.load.image('World', '../img2/world_elemets/pole_fight.png');
                     // Samurai Images
                     {
                         // Idle Images
-                        this.load.image('IdleRight', 'img2/samurai/stay_right.png');
-                        this.load.image('IdleLeft', 'img2/samurai/stay_left.png');
+                        this.load.image('IdleRight', '../img2/samurai/stay_right.png');
+                        this.load.image('IdleLeft', '../img2/samurai/stay_left.png');
                         // Samurai Running Images
-                        this.load.image('RunLeft1', 'img2/samurai/run1_left.png');
-                        this.load.image('RunLeft2', 'img2/samurai/run2_left.png');
-                        this.load.image('RunLeft3', 'img2/samurai/run3_left.png');
-                        this.load.image('RunLeft4', 'img2/samurai/run4_left.png');
+                        this.load.image('RunLeft1', '../img2/samurai/run1_left.png');
+                        this.load.image('RunLeft2', '../img2/samurai/run2_left.png');
+                        this.load.image('RunLeft3', '../img2/samurai/run3_left.png');
+                        this.load.image('RunLeft4', '../img2/samurai/run4_left.png');
 
-                        this.load.image('RunRight1', 'img2/samurai/run1_right.png');
-                        this.load.image('RunRight2', 'img2/samurai/run2_right.png');
-                        this.load.image('RunRight3', 'img2/samurai/run3_right.png');
-                        this.load.image('RunRight4', 'img2/samurai/run4_right.png');
+                        this.load.image('RunRight1', '../img2/samurai/run1_right.png');
+                        this.load.image('RunRight2', '../img2/samurai/run2_right.png');
+                        this.load.image('RunRight3', '../img2/samurai/run3_right.png');
+                        this.load.image('RunRight4', '../img2/samurai/run4_right.png');
                         // Samurai Attack Images
-                        this.load.image('AttackRight', 'img2/samurai/Attack.png');
-                        this.load.image('AttackLeft', 'img2/samurai/Attack_left.png');
+                        this.load.image('AttackRight', '../img2/samurai/Attack.png');
+                        this.load.image('AttackLeft', '../img2/samurai/Attack_left.png');
                         // Attack animation
-                        this.load.spritesheet('AttackFrames', 'img2/playervfx/sprite-sheet.png', {
+                        this.load.spritesheet('AttackFrames', '../img2/playervfx/sprite-sheet.png', {
                             frameWidth: 128, // Ensure this matches the frame width in the sheet
                             frameHeight: 128, // Ensure this matches the frame height in the sheet
                         });
                     }
                     // Arrow 
-                    this.load.image('Arrow', 'img2/playervfx/Arrow.png');
+                    this.load.image('Arrow', '../img2/playervfx/Arrow.png');
 
                     // Enemy Images
                     {
                         // Demon Idle Images
-                        this.load.image('DemIdleDown', 'img2/demon/demons_stand_down.png');
-                        this.load.image('DemIdleUp', 'img2/demon/demons_stand_up.png');
-                        this.load.image('DemIdleRight', 'img2/demon/demons_stand_right.png');
-                        this.load.image('DemIdleLeft', 'img2/demon/demons_stand_left.png');
+                        this.load.image('DemIdleDown', '../img2/demon/demons_stand_down.png');
+                        this.load.image('DemIdleUp', '../img2/demon/demons_stand_up.png');
+                        this.load.image('DemIdleRight', '../img2/demon/demons_stand_right.png');
+                        this.load.image('DemIdleLeft', '../img2/demon/demons_stand_left.png');
                         // Demon Running Images
-                        this.load.image("DemRunDown1", 'img2/demon/demons_walk1_down.png');
-                        this.load.image("DemRunDown2", 'img2/demon/demons_walk2_down.png');
+                        this.load.image("DemRunDown1", '../img2/demon/demons_walk1_down.png');
+                        this.load.image("DemRunDown2", '../img2/demon/demons_walk2_down.png');
 
-                        this.load.image("DemRunUp1", 'img2/demon/demons_walk1_up.png');
-                        this.load.image("DemRunUp2", 'img2/demon/demons_walk2_up.png');
+                        this.load.image("DemRunUp1", '../img2/demon/demons_walk1_up.png');
+                        this.load.image("DemRunUp2", '../img2/demon/demons_walk2_up.png');
 
-                        this.load.image("DemRunRight1", 'img2/demon/demons_walk1_right.png');
-                        this.load.image("DemRunRight2", 'img2/demon/demons_walk2_right.png');
+                        this.load.image("DemRunRight1", '../img2/demon/demons_walk1_right.png');
+                        this.load.image("DemRunRight2", '../img2/demon/demons_walk2_right.png');
 
-                        this.load.image("DemRunLeft1", 'img2/demon/demons_walk1_left.png');
-                        this.load.image("DemRunLeft2", 'img2/demon/demons_walk2_left.png');
+                        this.load.image("DemRunLeft1", '../img2/demon/demons_walk1_left.png');
+                        this.load.image("DemRunLeft2", '../img2/demon/demons_walk2_left.png');
                     }
                     // Spawner
-                    this.load.image('Spawner', 'img2/demon/spawn.png');
-                    this.load.image('Warning', 'img2/demon/Warning.png');
+                    this.load.image('Spawner', '../img2/demon/spawn.png');
+                    this.load.image('Warning', '../img2/demon/Warning.png');
                     // Tree Images
                     {
-                        this.load.image('Tree1', 'img2/trees/tree_1.png');
-                        this.load.image('Tree2', 'img2/trees/tree_2.png');
-                        this.load.image('Tree3', 'img2/trees/tree_3.png');
-                        this.load.image('Tree4', 'img2/trees/tree_4.png');
-                        this.load.image('Tree5', 'img2/trees/tree_5.png');
-                        this.load.image('Tree6', 'img2/trees/tree_6.png');
-                        this.load.image('Tree7', 'img2/trees/tree_7.png');
-                        this.load.image('Tree8', 'img2/trees/tree_8.png');
+                        this.load.image('Tree1', '../img2/trees/tree_1.png');
+                        this.load.image('Tree2', '../img2/trees/tree_2.png');
+                        this.load.image('Tree3', '../img2/trees/tree_3.png');
+                        this.load.image('Tree4', '../img2/trees/tree_4.png');
+                        this.load.image('Tree5', '../img2/trees/tree_5.png');
+                        this.load.image('Tree6', '../img2/trees/tree_6.png');
+                        this.load.image('Tree7', '../img2/trees/tree_7.png');
+                        this.load.image('Tree8', '../img2/trees/tree_8.png');
                     }
                     // House Images
                     {
-                        this.load.image('House1', 'img2/houses/house1_1.png');
-                        this.load.image('House2', 'img2/houses/house1_2.png');
-                        this.load.image('House3', 'img2/houses/house1_3.png');
-                        this.load.image('House4', 'img2/houses/house2_1.png');
-                        this.load.image('House5', 'img2/houses/house2_2.png');
-                        this.load.image('House6', 'img2/houses/house2_3.png');
-                        this.load.image('House7', 'img2/houses/house3_1.png');
-                        this.load.image('House8', 'img2/houses/house3_2.png');
-                        this.load.image('House9', 'img2/houses/house_3.png');
+                        this.load.image('House1', '../img2/houses/house1_1.png');
+                        this.load.image('House2', '../img2/houses/house1_2.png');
+                        this.load.image('House3', '../img2/houses/house1_3.png');
+                        this.load.image('House4', '../img2/houses/house2_1.png');
+                        this.load.image('House5', '../img2/houses/house2_2.png');
+                        this.load.image('House6', '../img2/houses/house2_3.png');
+                        this.load.image('House7', '../img2/houses/house3_1.png');
+                        this.load.image('House8', '../img2/houses/house3_2.png');
+                        this.load.image('House9', '../img2/houses/house_3.png');
                     }
                     // Words and Sentences
-                    this.load.image('Word', 'img2/tablick/nav_tree.png');
-                    // this.load.image('Sentence', '.img2/tablick/name_tree.png');
+                    this.load.image('Word', '../img2/tablick/nav_tree.png');
+                    // this.load.image('Sentence', '.../img2/tablick/name_tree.png');
                 }
                 create() {
 
@@ -803,7 +803,7 @@ window.addEventListener("load", () => {
                 }
 
                 preload() {
-                    this.load.image('Sentence', 'img2/tablick/name_tree.png');
+                    this.load.image('Sentence', '../img2/tablick/name_tree.png');
                 }
 
                 create() {
