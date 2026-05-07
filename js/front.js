@@ -460,15 +460,15 @@ console.log(Phaser)
 
 // открытие деревни
 
+const backWithSimple = document.getElementById("backWithSimple");
+const simpleVillage = document.getElementById("present-simple")
+
 let saved = localStorage.getItem('vailageLevel');
 let getSimple = saved !== null ? saved : 0;
 if (saved) {
     simpleVillage.style.background = 'url("../img/world_elemets/vilage1.png")';
     document.getElementById("present-simplelock").style.display = "none";
 }
-
-const backWithSimple = document.getElementById("backWithSimple");
-const simpleVillage = document.getElementById("present-simple")
 
 document.getElementById("backWithSimple").addEventListener("click", function () {
     gameWord.style.display = "none";
