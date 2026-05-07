@@ -459,7 +459,8 @@ checkTrans.addEventListener("click", function () {
 console.log(Phaser)
 
 // открытие деревни
-let getSimple = 0;
+
+let getSimple = 0 || localStorage.getItem('vailageLevel');
 const backWithSimple = document.getElementById("backWithSimple");
 const simpleVillage = document.getElementById("present-simple")
 
@@ -482,7 +483,8 @@ document.getElementById("backWithSimple").addEventListener("click", function () 
 
     simpleVillage.style.background = 'url("img2/world_elemets/vilage1.png")';
     document.getElementById("present-simplelock").style.display = "none";
-    getSimple = "1"
+    getSimple = "1" 
+    localStorage.setItem('vailageLevel', '1')
 });
 
 
