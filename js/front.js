@@ -460,7 +460,8 @@ console.log(Phaser)
 
 // открытие деревни
 
-let getSimple = 0 || localStorage.getItem('vailageLevel');
+let saved = localStorage.getItem('vailageLevel');
+let getSimple = saved !== null ? saved : 0;
 const backWithSimple = document.getElementById("backWithSimple");
 const simpleVillage = document.getElementById("present-simple")
 
