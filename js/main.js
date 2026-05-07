@@ -1,7 +1,7 @@
 window.addEventListener("load", () => {
     // Поменяй тут элемент если хочешь чтобы он работал по другому\
     document.getElementById("present-simple").addEventListener("click", () => {
-        if (getsimple = "1") {
+        if (getsimple == "1") {
             const MainMenu = document.getElementById("MainMenu");
             document.getElementById("brightness").style.display = "none";
             MainMenu.style.display = "none";
