@@ -462,6 +462,11 @@ console.log(Phaser)
 
 let saved = localStorage.getItem('vailageLevel');
 let getSimple = saved !== null ? saved : 0;
+if (saved) {
+    simpleVillage.style.background = 'url("img2/world_elemets/vilage1.png")';
+    document.getElementById("present-simplelock").style.display = "none";
+}
+
 const backWithSimple = document.getElementById("backWithSimple");
 const simpleVillage = document.getElementById("present-simple")
 
