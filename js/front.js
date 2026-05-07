@@ -487,7 +487,7 @@ document.getElementById("backWithSimple").addEventListener("click", function () 
     checkWordsCount = 0;
     hideWindow(document.getElementById("victory_word"));
 
-    simpleVillage.style.background = 'url("img2/world_elemets/vilage1.png")';
+    simpleVillage.style.background = 'url("img2/samurai/stay_right.png")';
     document.getElementById("present-simplelock").style.display = "none";
     getSimple = "1" 
     localStorage.setItem('vailageLevel', '1')
